@@ -7,7 +7,15 @@
 //
 
 #import "AppDelegate.h"
-
+#import "rootViewController.h"
+#import <MAMapKit/MAMapKit.h>
+#import <AMapLocationKit/AMapLocationKit.h>
+#import <ShareSDK/ShareSDK.h>
+#import <ShareSDKConnector/ShareSDKConnector.h>
+#import <TencentOpenAPI/TencentOAuth.h>
+#import <TencentOpenAPI/QQApiInterface.h>
+#import "WXApi.h"
+#import "WeiboSDK.h"
 @interface AppDelegate ()
 
 @end
@@ -17,6 +25,50 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [MAMapServices sharedServices].apiKey = @"44fd27cd9783509b615dede053f0d22a";
+    [AMapLocationServices sharedServices].apiKey = @"44fd27cd9783509b615dede053f0d22a";
+    //Share
+    [ShareSDK registerApp:@"94dfdb5d5124" activePlatforms:@[@(SSDKPlatformTypeSinaWeibo),@(SSDKPlatformTypeWechat),@(SSDKPlatformTypeQQ)] onImport:^(SSDKPlatformType platformType) {
+        switch (platformType)
+        {
+            case SSDKPlatformTypeWechat:
+                [ShareSDKConnector connectWeChat:[WXApi class]];
+                break;
+            case SSDKPlatformTypeQQ:
+                [ShareSDKConnector connectQQ:[QQApiInterface class] tencentOAuthClass:[TencentOAuth class]];
+                break;
+            case SSDKPlatformTypeSinaWeibo:
+                [ShareSDKConnector connectWeibo:[WeiboSDK class]];
+                break;
+            default:
+                break;
+        }
+    } onConfiguration:^(SSDKPlatformType platformType, NSMutableDictionary *appInfo) {
+        switch (platformType)
+        {
+            case SSDKPlatformTypeSinaWeibo:
+                //设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权
+                [appInfo SSDKSetupSinaWeiboByAppKey:@"3461476928"
+                                          appSecret:@"30f46ab1910b0e2078497b45e458d21d"
+                                        redirectUri:@"http://www.sina.com"
+                                           authType:SSDKAuthTypeBoth];
+                break;
+            case SSDKPlatformTypeWechat:
+                [appInfo SSDKSetupWeChatByAppId:@"wx760df62fd7a54330"
+                                      appSecret:@"55d49a95191a3bbd0afd014cbc03d774"];
+                break;
+            case SSDKPlatformTypeQQ:
+                [appInfo SSDKSetupQQByAppId:@"101216688"
+                                     appKey:@"6448f42615372734e06637459806e2b5"
+                                   authType:SSDKAuthTypeBoth];
+                break;
+            default:
+                break;
+        }
+    }];
+    rootViewController * root = [[rootViewController alloc]init];
+    self.window.rootViewController = root;
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
