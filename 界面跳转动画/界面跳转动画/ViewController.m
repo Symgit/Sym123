@@ -24,7 +24,7 @@
     UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setFrame:CGRectMake(0, 0, 45, 45)];
     btn.center = self.view.center;
-    [btn setTitle:@"返回" forState:UIControlStateNormal];
+    [btn setTitle:@"跳转" forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(addBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
