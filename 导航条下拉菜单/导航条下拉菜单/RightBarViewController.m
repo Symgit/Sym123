@@ -10,8 +10,6 @@
 
 @interface RightBarViewController ()<UITableViewDelegate,UITableViewDataSource>
 
-@property (strong, nonatomic) IBOutlet UITableView *leftCell;
-
 @property (strong, nonatomic) UITableView *tableView;
 @end
 
@@ -50,10 +48,11 @@
 }
 - (CGSize)preferredContentSize {
     if (self.presentingViewController && self.tableView != nil) {
-        CGSize tempSize = self.presentingViewController.view.bounds.size;
+        CGSize ContentSize = self.presentingViewController.view.bounds.size;
         
-        tempSize.width = 150;
-        CGSize size = [self.tableView sizeThatFits:tempSize];  //sizeThatFits返回的是最合适的尺寸，但不会改变控件的大小
+        ContentSize.width = 150;
+        CGSize size = [self.tableView sizeThatFits:ContentSize];
+        //sizeThatFits返回的是最合适的尺寸，但不会改变控件的大小
         return size;
     }else {
         return [super preferredContentSize];

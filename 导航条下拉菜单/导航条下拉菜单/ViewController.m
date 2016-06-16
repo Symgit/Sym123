@@ -31,9 +31,8 @@
 - (void)RightBtn:(UIButton *)btn{
     self.right = [[RightBarViewController alloc]initWithNibName:@"RightBarViewController" bundle:nil];
     self.right.modalPresentationStyle = UIModalPresentationPopover;
-    UIBarButtonItem * bar = [[UIBarButtonItem alloc]initWithCustomView:btn];
-    self.right.popoverPresentationController.barButtonItem = bar;
-    self.right.preferredContentSize=CGSizeMake(145, 294);
+    self.right.popoverPresentationController.barButtonItem = self.navigationItem.rightBarButtonItem;
+    //self.right.preferredContentSize=CGSizeMake(145, 294);
     //箭头方向
     self.right.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
     self.right.popoverPresentationController.delegate = self;
@@ -45,9 +44,12 @@
 }
 - (UIViewController *)presentationController:(UIPresentationController *)controller viewControllerForAdaptivePresentationStyle:(UIModalPresentationStyle)style{
     UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:controller.presentedViewController];
-    UIBarButtonItem * item = [[UIBarButtonItem alloc]initWithTitle:@"" style:@"" target:self action:@selector(dismiss)];
+    UIBarButtonItem * item = [[UIBarButtonItem alloc]initWithTitle:@"" style:UIBarButtonItemStyleDone target:self action:@selector(dismiss)];
     nav.topViewController.navigationItem.rightBarButtonItem = item;
     return nav;
+}
+- (void)dismiss{
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
