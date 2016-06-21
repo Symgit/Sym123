@@ -1,6 +1,0 @@
-framework module IndoorLocationSDK {
-  umbrella header "IndoorLocationSDK.h"
-
-  export *
-  module * { export * }
-}
